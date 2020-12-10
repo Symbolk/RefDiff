@@ -27,7 +27,7 @@ dependencies {
     implementation 'com.jcabi:jcabi-github:0.39'
     implementation 'org.eclipse.jgit:org.eclipse.jgit:5.0.0.201805151920-m7'
     
-    implementation 'org.refactoringminer:RefactoringMiner:1.0'
+    implementation 'com.github.tsantalis:refactoring-miner:2.0'
 }
 
 task icseeval(type: JavaExec) {
