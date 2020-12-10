@@ -2,6 +2,7 @@ package refdiff.evaluation.performance;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.EnumSet;
 import java.util.List;
@@ -101,15 +102,15 @@ public class RunPerformanceComparison {
 	private List<Refactoring> runRMiner(PairBeforeAfter<SourceFolder> sources, PairBeforeAfter<Set<String>> folders) {
 		File rootFolder1 = sources.getBefore().getBasePath().get().toFile();
 		File rootFolder2 = sources.getAfter().getBasePath().get().toFile();
-		List<String> filePaths1 = sources.getBefore().getSourceFiles().stream().map(sf -> sf.getPath()).collect(Collectors.toList());
-		List<String> filePaths2 = sources.getAfter().getSourceFiles().stream().map(sf -> sf.getPath()).collect(Collectors.toList());
-		
-		UMLModel model1 = new UMLModelASTReader(rootFolder1, filePaths1, folders.getBefore()).getUmlModel();
-		UMLModel model2 = new UMLModelASTReader(rootFolder2, filePaths2, folders.getAfter()).getUmlModel();
+//		List<String> filePaths1 = sources.getBefore().getSourceFiles().stream().map(sf -> sf.getPath()).collect(Collectors.toList());
+//		List<String> filePaths2 = sources.getAfter().getSourceFiles().stream().map(sf -> sf.getPath()).collect(Collectors.toList());
+
 		try {
+			UMLModel model1 = new UMLModelASTReader(rootFolder1).getUmlModel();
+			UMLModel model2 = new UMLModelASTReader(rootFolder2).getUmlModel();
 			UMLModelDiff modelDiff = model1.diff(model2);
 			return modelDiff.getRefactorings();
-		} catch (RefactoringMinerTimedOutException e) {
+		} catch (RefactoringMinerTimedOutException | IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
